@@ -38,7 +38,7 @@ export function TripCard({ trip }: TripCardProps) {
         )}
         {verified && (
           <span className="absolute top-3 right-3 flex items-center gap-1 bg-white/95 text-foreground text-[11px] font-medium px-2 py-0.5 rounded shadow-sm">
-            <CheckCircle2 size={12} className="text-accent" />
+            <CheckCircle2 size={12} className="text-primary" />
             Verified
           </span>
         )}
@@ -57,7 +57,7 @@ export function TripCard({ trip }: TripCardProps) {
         </h3>
 
         <div className="flex items-center gap-1.5 mb-3">
-          <Star size={14} className="text-[#e8a317] fill-[#e8a317]" />
+          <Star size={14} className="text-star fill-star" />
           <span className="text-sm font-semibold text-foreground">{rating.toFixed(1)}</span>
           <span className="text-sm text-muted-foreground">({reviews.toLocaleString()})</span>
         </div>

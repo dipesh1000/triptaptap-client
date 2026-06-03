@@ -39,7 +39,7 @@ function StarRating({ count }: { count: number }) {
   return (
     <div className="flex items-center gap-0.5" aria-label={`${count} out of 5 stars`}>
       {Array.from({ length: count }).map((_, i) => (
-        <Star key={i} size={14} className="text-[#e8a317] fill-[#e8a317]" />
+        <Star key={i} size={14} className="text-star fill-star" />
       ))}
     </div>
   )

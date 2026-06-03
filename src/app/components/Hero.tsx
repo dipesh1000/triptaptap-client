@@ -17,7 +17,7 @@ export function Hero() {
         alt=""
         className="absolute inset-0 w-full h-full object-cover object-center"
       />
-      <div className="absolute inset-0 bg-gradient-to-r from-[#0a1628]/92 via-[#0a1628]/75 to-[#0a1628]/40" />
+      <div className="absolute inset-0 bg-gradient-to-r from-brand-blue-dark/95 via-brand-blue/80 to-brand-blue-dark/45" />
 
       <div className="relative z-10 landing-container w-full pb-12 md:pb-16 pt-24 md:pt-28">
         <div className="max-w-2xl">
@@ -35,7 +35,7 @@ export function Hero() {
         <div className="max-w-4xl bg-white rounded-xl shadow-lg border border-black/5 p-2 md:p-3">
           <div className="flex flex-col lg:flex-row lg:items-stretch gap-2">
             <label className="flex-1 flex items-center gap-3 px-4 py-3 lg:border-r border-border min-h-[52px]">
-              <MapPin size={18} className="text-accent shrink-0" />
+              <MapPin size={18} className="text-primary shrink-0" />
               <span className="flex-1 min-w-0">
                 <span className="block text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
                   Where
@@ -51,7 +51,7 @@ export function Hero() {
             </label>
 
             <label className="flex-1 flex items-center gap-3 px-4 py-3 lg:border-r border-border min-h-[52px]">
-              <Calendar size={18} className="text-accent shrink-0" />
+              <Calendar size={18} className="text-primary shrink-0" />
               <span className="flex-1 min-w-0">
                 <span className="block text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
                   When
@@ -67,7 +67,7 @@ export function Hero() {
             </label>
 
             <div className="flex items-center gap-3 px-4 py-3 lg:border-r border-border min-h-[52px]">
-              <Users size={18} className="text-accent shrink-0" />
+              <Users size={18} className="text-primary shrink-0" />
               <span>
                 <span className="block text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
                   Travelers

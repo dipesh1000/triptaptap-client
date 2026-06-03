@@ -12,7 +12,7 @@ export function FeaturedBanner() {
             alt=""
             className="absolute inset-0 w-full h-full object-cover object-center"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-primary/95 via-primary/80 to-primary/30" />
+          <div className="absolute inset-0 bg-gradient-to-r from-brand-blue-dark/95 via-brand-blue/75 to-brand-blue-dark/35" />
 
           <div className="relative z-10 p-8 md:p-10 max-w-xl">
             <span className="inline-block text-xs font-semibold uppercase tracking-wide text-white/90 bg-white/15 rounded px-2 py-1 mb-4">
@@ -27,13 +27,13 @@ export function FeaturedBanner() {
             <div className="flex flex-wrap items-center gap-4">
               <a
                 href={sectionHref(SECTIONS.explore)}
-                className="inline-flex items-center gap-2 bg-white text-primary font-semibold text-sm px-5 py-2.5 rounded-lg hover:bg-white/95 transition-colors"
+                className="btn-primary"
               >
                 Browse collection
                 <ArrowRight size={16} />
               </a>
               <span className="flex items-center gap-1.5 text-white/90 text-sm">
-                <Star size={14} className="fill-[#e8a317] text-[#e8a317]" />
+                <Star size={14} className="fill-star text-star" />
                 4.9 average rating
               </span>
             </div>

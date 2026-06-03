@@ -26,6 +26,8 @@ Open http://localhost:5173 (default Vite port).
 
 Edit `src/config/site.ts` for support email and section anchors.
 
+**Brand (landing only):** `#2263B0` blue (identity) · `#FB5D00` orange (CTAs). See `src/config/brand.ts`.
+
 Optional `.env` (see `.env.example`):
 
 - `VITE_APP_STORE_URL` — iOS App Store link

@@ -31,7 +31,7 @@ const TRUST_ITEMS = [
 
 export function Footer() {
   return (
-    <footer id={SECTIONS.download} className="bg-primary text-primary-foreground scroll-mt-16">
+    <footer id={SECTIONS.download} className="bg-footer text-white scroll-mt-16">
       <div className="landing-container pt-14 pb-24 md:pb-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-10 mb-12">
           <div className="lg:col-span-2">

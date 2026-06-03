@@ -27,7 +27,7 @@ export function MobileBottomNav() {
               href={href}
               onClick={() => setActive(id)}
               className={`flex-1 flex flex-col items-center gap-0.5 py-2.5 transition-colors ${
-                isActive ? 'text-accent' : 'text-muted-foreground'
+                isActive ? 'text-cta' : 'text-muted-foreground'
               }`}
               aria-current={isActive ? 'page' : undefined}
             >

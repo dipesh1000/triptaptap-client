@@ -22,7 +22,7 @@ export function VendorSection() {
               alt=""
               className="absolute inset-0 w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-primary/75" />
+            <div className="absolute inset-0 bg-brand-blue-dark/85" />
             <div className="relative z-10 flex flex-col justify-end h-full p-8 md:p-10">
               <p className="text-white/80 text-xs font-semibold uppercase tracking-wide mb-2">
                 For travelers
@@ -35,7 +35,7 @@ export function VendorSection() {
               </p>
               <a
                 href={sectionHref(SECTIONS.download)}
-                className="inline-flex items-center gap-2 self-start bg-white text-primary font-semibold text-sm px-5 py-2.5 rounded-lg hover:bg-white/95 transition-colors"
+                className="btn-primary self-start"
               >
                 Get the app
                 <ArrowRight size={16} />
@@ -43,7 +43,7 @@ export function VendorSection() {
             </div>
           </div>
 
-          <div className="bg-primary p-8 md:p-10 flex flex-col justify-center">
+          <div className="bg-brand-blue p-8 md:p-10 flex flex-col justify-center">
             <p className="text-white/70 text-xs font-semibold uppercase tracking-wide mb-2">
               For experience operators
             </p>
@@ -57,7 +57,7 @@ export function VendorSection() {
             <ul className="flex flex-col gap-3 mb-8">
               {VENDOR_BENEFITS.map(({ icon: Icon, text }) => (
                 <li key={text} className="flex items-start gap-3 text-white/90 text-sm">
-                  <Icon size={18} className="text-accent shrink-0 mt-0.5" strokeWidth={1.75} />
+                  <Icon size={18} className="text-cta shrink-0 mt-0.5" strokeWidth={1.75} />
                   {text}
                 </li>
               ))}
@@ -65,7 +65,7 @@ export function VendorSection() {
 
             <a
               href={sectionHref(SECTIONS.download)}
-              className="inline-flex items-center justify-center gap-2 border-2 border-accent text-accent hover:bg-accent hover:text-accent-foreground font-semibold text-sm px-5 py-2.5 rounded-lg transition-colors w-fit"
+              className="btn-primary w-fit"
             >
               List on the app
               <ArrowRight size={15} />

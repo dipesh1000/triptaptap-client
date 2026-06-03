@@ -1,83 +1,86 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
+  /* Landing brand — #2263B0 + #FB5D00 (not synced to mobile app theme) */
+  --brand-blue: #2263B0;
+  --brand-blue-hover: #1B5499;
+  --brand-blue-dark: #1A4F94;
+  --brand-blue-light: #E8EFF8;
+  --brand-cta: #FB5D00;
+  --brand-cta-hover: #E55300;
+  --brand-cta-light: #FFF4ED;
+
   --font-size: 16px;
-  --background: #F7FAFC;
-  --foreground: #0C1824;
+  --background: #F4F5FF;
+  --foreground: #0A161D;
   --card: #FFFFFF;
-  --card-foreground: #0C1824;
+  --card-foreground: #0A161D;
   --popover: #FFFFFF;
-  --popover-foreground: #0C1824;
-  --primary: #0C3B5E;
+  --popover-foreground: #0A161D;
+  /* Brand blue — structure, links, icons */
+  --primary: var(--brand-blue);
   --primary-foreground: #FFFFFF;
-  --secondary: #E8F5EF;
-  --secondary-foreground: #0C3B5E;
-  --muted: #F0F4F8;
-  --muted-foreground: #6B7B8D;
-  --accent: #1D9E75;
-  --accent-foreground: #FFFFFF;
-  --destructive: #d4183d;
+  --secondary: var(--brand-blue-light);
+  --secondary-foreground: var(--brand-blue-dark);
+  --muted: #FAFAFA;
+  --muted-foreground: #686868;
+  /* CTA orange — buttons & high-intent actions only */
+  --cta: var(--brand-cta);
+  --cta-foreground: #FFFFFF;
+  --accent: var(--brand-blue-light);
+  --accent-foreground: var(--brand-blue-dark);
+  --destructive: #FD5F72;
   --destructive-foreground: #ffffff;
-  --border: rgba(12, 59, 94, 0.1);
+  --border: rgba(34, 99, 176, 0.12);
   --input: transparent;
-  --input-background: #F0F4F8;
+  --input-background: #FAFAFA;
   --switch-background: #cbced4;
-  --highlight: #BA7517;
+  --highlight: var(--brand-cta);
   --highlight-foreground: #FFFFFF;
+  --footer: var(--brand-blue-dark);
   --font-weight-medium: 500;
   --font-weight-normal: 400;
-  --ring: #1D9E75;
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
+  --ring: var(--brand-blue);
+  --chart-1: var(--brand-blue);
+  --chart-2: var(--brand-cta);
+  --chart-3: #0CAE4A;
+  --chart-4: #F5B544;
+  --chart-5: var(--brand-blue-dark);
   --radius: 0.5rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: #030213;
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --sidebar: #FAFAFA;
+  --sidebar-foreground: #0A161D;
+  --sidebar-primary: var(--brand-blue-dark);
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: var(--brand-blue-light);
+  --sidebar-accent-foreground: var(--brand-blue-dark);
+  --sidebar-border: #E9E9E9;
+  --sidebar-ring: var(--brand-blue);
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.145 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.145 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.985 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.396 0.141 25.723);
-  --destructive-foreground: oklch(0.637 0.237 25.331);
-  --border: oklch(0.269 0 0);
-  --input: oklch(0.269 0 0);
-  --ring: oklch(0.439 0 0);
+  --background: var(--brand-blue-dark);
+  --foreground: #FAFAFA;
+  --card: #1B5499;
+  --card-foreground: #FAFAFA;
+  --popover: #1B5499;
+  --popover-foreground: #FAFAFA;
+  --primary: var(--brand-blue);
+  --primary-foreground: #FFFFFF;
+  --secondary: #1B5499;
+  --secondary-foreground: #FAFAFA;
+  --muted: #1B5499;
+  --muted-foreground: #B9B9B9;
+  --cta: var(--brand-cta);
+  --cta-foreground: #FFFFFF;
+  --accent: #1B5499;
+  --accent-foreground: #FAFAFA;
+  --destructive: #FD5F72;
+  --destructive-foreground: #ffffff;
+  --border: rgba(255, 255, 255, 0.12);
+  --input: #1B5499;
+  --ring: var(--brand-blue);
   --font-weight-medium: 500;
   --font-weight-normal: 400;
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(0.269 0 0);
-  --sidebar-ring: oklch(0.439 0 0);
 }
 
 @theme inline {
@@ -93,6 +96,8 @@
   --color-secondary-foreground: var(--secondary-foreground);
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
+  --color-cta: var(--cta);
+  --color-cta-foreground: var(--cta-foreground);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
   --color-destructive: var(--destructive);
@@ -102,6 +107,13 @@
   --color-input-background: var(--input-background);
   --color-switch-background: var(--switch-background);
   --color-ring: var(--ring);
+  --color-highlight: var(--highlight);
+  --color-highlight-foreground: var(--highlight-foreground);
+  --color-footer: var(--footer);
+  --color-brand-blue: var(--brand-blue);
+  --color-brand-blue-light: var(--brand-blue-light);
+  --color-brand-blue-dark: var(--brand-blue-dark);
+  --color-star: #F5B544;
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
   --color-chart-3: var(--chart-3);
@@ -136,54 +148,7 @@
     @apply font-semibold tracking-tight text-foreground;
   }
 
-  /**
-  * Default typography styles for HTML elements (h1-h4, p, label, button, input).
-  * These are in @layer base, so Tailwind utility classes (like text-sm, text-lg) automatically override them.
-  */
-
   html {
     font-size: var(--font-size);
-  }
-
-  h1 {
-    font-size: var(--text-2xl);
-    font-weight: var(--font-weight-medium);
-    line-height: 1.5;
-  }
-
-  h2 {
-    font-size: var(--text-xl);
-    font-weight: var(--font-weight-medium);
-    line-height: 1.5;
-  }
-
-  h3 {
-    font-size: var(--text-lg);
-    font-weight: var(--font-weight-medium);
-    line-height: 1.5;
-  }
-
-  h4 {
-    font-size: var(--text-base);
-    font-weight: var(--font-weight-medium);
-    line-height: 1.5;
-  }
-
-  label {
-    font-size: var(--text-base);
-    font-weight: var(--font-weight-medium);
-    line-height: 1.5;
-  }
-
-  button {
-    font-size: var(--text-base);
-    font-weight: var(--font-weight-medium);
-    line-height: 1.5;
-  }
-
-  input {
-    font-size: var(--text-base);
-    font-weight: var(--font-weight-normal);
-    line-height: 1.5;
   }
 }

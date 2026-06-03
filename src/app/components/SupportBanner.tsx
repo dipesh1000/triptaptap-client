@@ -42,7 +42,7 @@ export function SupportBanner() {
             { label: 'Payments', href: mailtoSupport('Payment FAQ') },
             { label: 'Contact', href: mailtoSupport() },
           ].map(({ label, href }) => (
-            <a key={label} href={href} className="font-medium text-primary hover:text-accent transition-colors">
+            <a key={label} href={href} className="text-link">
               {label}
             </a>
           ))}
