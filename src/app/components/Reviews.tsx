@@ -47,7 +47,7 @@ function StarRating({ count }: { count: number }) {
 
 export function Reviews() {
   return (
-    <section id="reviews" className="landing-section bg-muted scroll-mt-16">
+    <section id="reviews" className="landing-section bg-muted scroll-mt-[var(--header-height)]">
       <div className="landing-container max-w-6xl">
         <SectionHeading
           title="Traveler reviews"

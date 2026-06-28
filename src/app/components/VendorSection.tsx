@@ -13,7 +13,7 @@ const VENDOR_BENEFITS = [
 
 export function VendorSection() {
   return (
-    <section id="vendors" className="landing-section bg-card scroll-mt-16">
+    <section id="vendors" className="landing-section bg-card scroll-mt-[var(--header-height)]">
       <div className="landing-container">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 rounded-xl overflow-hidden border border-border shadow-sm">
           <div className="relative min-h-[300px] lg:min-h-[420px]">

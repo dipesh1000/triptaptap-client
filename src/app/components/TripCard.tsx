@@ -1,5 +1,7 @@
 import { Star, CheckCircle2 } from 'lucide-react'
 import { ImageWithFallback } from '@/app/components/figma/ImageWithFallback'
+import { formatPrice } from '@/utils/packageMapper'
+import { SECTIONS, sectionHref } from '@/config/site'
 
 export interface TripData {
   id: string
@@ -23,8 +25,10 @@ export function TripCard({ trip }: TripCardProps) {
   const { destination, country, duration, rating, reviews, price, image, petFriendly, badge, verified } =
     trip
 
+  const showRating = rating > 0
+
   return (
-    <article className="group bg-card rounded-lg overflow-hidden border border-border hover:border-primary/20 hover:shadow-md transition-shadow flex-shrink-0 w-[280px] md:w-auto">
+    <article className="group bg-card rounded-xl overflow-hidden border border-border hover:border-primary/25 hover:shadow-lg transition-all duration-300 flex-shrink-0 w-[280px] md:w-auto">
       <div className="relative aspect-[4/3] overflow-hidden bg-muted">
         <ImageWithFallback
           src={image}
@@ -56,23 +60,47 @@ export function TripCard({ trip }: TripCardProps) {
           {destination}
         </h3>
 
-        <div className="flex items-center gap-1.5 mb-3">
-          <Star size={14} className="text-star fill-star" />
-          <span className="text-sm font-semibold text-foreground">{rating.toFixed(1)}</span>
-          <span className="text-sm text-muted-foreground">({reviews.toLocaleString()})</span>
-        </div>
+        {showRating ? (
+          <div className="flex items-center gap-1.5 mb-3">
+            <Star size={14} className="text-star fill-star" />
+            <span className="text-sm font-semibold text-foreground">{rating.toFixed(1)}</span>
+            {reviews > 0 && (
+              <span className="text-sm text-muted-foreground">({reviews.toLocaleString()})</span>
+            )}
+          </div>
+        ) : (
+          <p className="text-xs text-muted-foreground mb-3">New on TripTaptap</p>
+        )}
 
         <div className="flex items-end justify-between gap-2 pt-3 border-t border-border">
           <div>
             <p className="text-[11px] text-muted-foreground uppercase tracking-wide">From</p>
             <p className="text-lg font-bold text-primary">
-              ${price}
+              {formatPrice(price)}
               <span className="text-sm font-normal text-muted-foreground"> / person</span>
             </p>
           </div>
-          <button type="button" className="btn-outline text-xs py-2 px-3 shrink-0">
-            View details
-          </button>
+          <a href={sectionHref(SECTIONS.download)} className="btn-outline text-xs py-2 px-3 shrink-0">
+            View in app
+          </a>
+        </div>
+      </div>
+    </article>
+  )
+}
+
+export function TripCardSkeleton() {
+  return (
+    <article className="bg-card rounded-lg overflow-hidden border border-border flex-shrink-0 w-[280px] md:w-auto animate-pulse">
+      <div className="aspect-[4/3] bg-muted" />
+      <div className="p-4 space-y-3">
+        <div className="h-3 w-20 bg-muted rounded" />
+        <div className="h-4 w-full bg-muted rounded" />
+        <div className="h-4 w-3/4 bg-muted rounded" />
+        <div className="h-3 w-24 bg-muted rounded" />
+        <div className="flex justify-between pt-3 border-t border-border">
+          <div className="h-8 w-24 bg-muted rounded" />
+          <div className="h-8 w-20 bg-muted rounded" />
         </div>
       </div>
     </article>

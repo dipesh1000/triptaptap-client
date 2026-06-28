@@ -1,6 +1,6 @@
 import { Header } from './components/Header'
 import { Hero } from './components/Hero'
-import { TrustStrip } from './components/TrustStrip'
+import { ConnectWithUs } from './components/ConnectWithUs'
 import { TrendingTrips } from './components/TrendingTrips'
 import { Categories } from './components/Categories'
 import { WhyTripTaptap } from './components/WhyTripTaptap'
@@ -18,10 +18,10 @@ export default function App() {
 
       <main>
         <Hero />
-        <TrustStrip />
+        <ConnectWithUs />
+        <WhyTripTaptap />
         <TrendingTrips />
         <Categories />
-        <WhyTripTaptap />
         <FeaturedBanner />
         <VendorSection />
         <Reviews />

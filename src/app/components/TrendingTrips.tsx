@@ -1,12 +1,14 @@
-import { useRef } from 'react'
+import { useMemo, useRef } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { SectionHeading } from './SectionHeading'
-import { TripCard, TripData } from './TripCard'
+import { TripCard, TripCardSkeleton, TripData } from './TripCard'
 import { SECTIONS, sectionHref } from '@/config/site'
+import { useHomeSections } from '@/hooks/useHomeSections'
+import { mapPackageToTrip } from '@/utils/packageMapper'
 
-const TRIPS: TripData[] = [
+const FALLBACK_TRIPS: TripData[] = [
   {
-    id: '1',
+    id: 'fallback-1',
     destination: 'Santorini Sunset Cruise',
     country: 'Greece',
     duration: '4 hours',
@@ -18,7 +20,7 @@ const TRIPS: TripData[] = [
     verified: true,
   },
   {
-    id: '2',
+    id: 'fallback-2',
     destination: 'Ubud Jungle Wellness Retreat',
     country: 'Indonesia',
     duration: '2 days',
@@ -26,11 +28,10 @@ const TRIPS: TripData[] = [
     reviews: 1923,
     price: 89,
     image: 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=600&h=450&fit=crop&auto=format',
-    petFriendly: true,
     verified: true,
   },
   {
-    id: '3',
+    id: 'fallback-3',
     destination: 'Ancient Kyoto Temple Walk',
     country: 'Japan',
     duration: '6 hours',
@@ -41,7 +42,7 @@ const TRIPS: TripData[] = [
     verified: true,
   },
   {
-    id: '4',
+    id: 'fallback-4',
     destination: 'Machu Picchu Sunrise Hike',
     country: 'Peru',
     duration: '1 day',
@@ -52,96 +53,83 @@ const TRIPS: TripData[] = [
     badge: 'Popular choice',
     verified: true,
   },
-  {
-    id: '5',
-    destination: 'Amalfi Coastal Sailing',
-    country: 'Italy',
-    duration: '8 hours',
-    rating: 4.7,
-    reviews: 1678,
-    price: 179,
-    image: 'https://images.unsplash.com/photo-1534438097545-a2c22c57f2ad?w=600&h=450&fit=crop&auto=format',
-    petFriendly: true,
-  },
-  {
-    id: '6',
-    destination: 'Masai Mara Safari',
-    country: 'Kenya',
-    duration: '3 days',
-    rating: 4.9,
-    reviews: 987,
-    price: 299,
-    image: 'https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?w=600&h=450&fit=crop&auto=format',
-    verified: true,
-  },
-  {
-    id: '7',
-    destination: 'Iceland Northern Lights Tour',
-    country: 'Iceland',
-    duration: '1 night',
-    rating: 4.8,
-    reviews: 1441,
-    price: 259,
-    image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&h=450&fit=crop&auto=format',
-    badge: 'Seasonal',
-  },
-  {
-    id: '8',
-    destination: 'Maldives Snorkel Adventure',
-    country: 'Maldives',
-    duration: '5 hours',
-    rating: 4.9,
-    reviews: 2103,
-    price: 189,
-    image: 'https://images.unsplash.com/photo-1573843981267-be1999ff37cd?w=600&h=450&fit=crop&auto=format',
-    verified: true,
-  },
 ]
+
+const SKELETON_COUNT = 4
 
 export function TrendingTrips() {
   const scrollRef = useRef<HTMLDivElement>(null)
+  const { data, loading, error, hasLiveData } = useHomeSections()
+
+  const { trips, usingFallback } = useMemo(() => {
+    const mapped = data.trending
+      .filter((pkg) => pkg.coverImage && pkg.title)
+      .map(mapPackageToTrip)
+
+    if (mapped.length > 0) {
+      return { trips: mapped, usingFallback: false }
+    }
+
+    if (!loading && (error || !hasLiveData)) {
+      return { trips: FALLBACK_TRIPS, usingFallback: true }
+    }
+
+    return { trips: [] as TripData[], usingFallback: false }
+  }, [data.trending, loading, error, hasLiveData])
 
   const scroll = (dir: 'left' | 'right') => {
     scrollRef.current?.scrollBy({ left: dir === 'left' ? -320 : 320, behavior: 'smooth' })
   }
 
   return (
-    <section id="trips" className="landing-section bg-muted scroll-mt-16">
+    <section id="trips" className="landing-section bg-muted scroll-mt-[var(--header-height)]">
       <div className="landing-container">
         <div className="flex items-end justify-between gap-4 mb-0">
           <SectionHeading
             title="Popular experiences"
-            description="Highly rated tours and activities from verified operators."
+            description={
+              usingFallback
+                ? 'Highly rated tours and activities from verified operators.'
+                : 'Top picks from TripTaptap — book in the app.'
+            }
           />
-          <div className="hidden md:flex items-center gap-2 shrink-0 mb-8">
-            <button
-              type="button"
-              onClick={() => scroll('left')}
-              className="w-9 h-9 rounded-lg border border-border bg-card flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary/30 transition-colors"
-              aria-label="Previous"
-            >
-              <ChevronLeft size={18} />
-            </button>
-            <button
-              type="button"
-              onClick={() => scroll('right')}
-              className="w-9 h-9 rounded-lg border border-border bg-card flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary/30 transition-colors"
-              aria-label="Next"
-            >
-              <ChevronRight size={18} />
-            </button>
-          </div>
+          {!loading && trips.length > 0 && (
+            <div className="hidden md:flex items-center gap-2 shrink-0 mb-8">
+              <button
+                type="button"
+                onClick={() => scroll('left')}
+                className="w-9 h-9 rounded-lg border border-border bg-card flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary/30 transition-colors"
+                aria-label="Previous"
+              >
+                <ChevronLeft size={18} />
+              </button>
+              <button
+                type="button"
+                onClick={() => scroll('right')}
+                className="w-9 h-9 rounded-lg border border-border bg-card flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary/30 transition-colors"
+                aria-label="Next"
+              >
+                <ChevronRight size={18} />
+              </button>
+            </div>
+          )}
         </div>
 
         <div
           ref={scrollRef}
           className="flex md:grid md:grid-cols-2 lg:grid-cols-4 gap-4 overflow-x-auto pb-2 md:overflow-visible scrollbar-hide snap-x snap-mandatory md:snap-none"
         >
-          {TRIPS.map((trip) => (
-            <div key={trip.id} className="snap-start md:snap-align-none">
-              <TripCard trip={trip} />
-            </div>
-          ))}
+          {loading
+            ? Array.from({ length: SKELETON_COUNT }, (_, i) => (
+                <div key={`skeleton-${i}`} className="snap-start md:snap-align-none">
+                  <TripCardSkeleton />
+                </div>
+              ))
+            : trips.map((trip) => (
+                <div key={trip.id} className="snap-start md:snap-align-none">
+                  <TripCard trip={trip} />
+                </div>
+              ))}
         </div>
 
         <div className="text-center mt-10">

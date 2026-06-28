@@ -20,7 +20,7 @@ const CATEGORIES: { id: string; label: string; count: string; icon: LucideIcon }
 
 export function Categories() {
   return (
-    <section id="explore" className="landing-section bg-card scroll-mt-16">
+    <section id="explore" className="landing-section bg-card scroll-mt-[var(--header-height)]">
       <div className="landing-container">
         <SectionHeading
           title="Explore by interest"

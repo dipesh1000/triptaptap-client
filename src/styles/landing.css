@@ -1,10 +1,46 @@
 @layer components {
+  :root {
+    --header-height: 4.25rem;
+  }
+
+  @media (min-width: 768px) {
+    :root {
+      --header-height: 4.75rem;
+    }
+  }
+
+  .landing-header {
+    height: var(--header-height);
+  }
+
   .landing-container {
     @apply max-w-7xl mx-auto px-4 sm:px-6;
   }
 
   .landing-section {
     @apply py-14 md:py-20;
+  }
+
+  .landing-nav-link {
+    @apply relative;
+  }
+
+  .landing-nav-link::after {
+    content: '';
+    @apply absolute left-3 right-3 -bottom-0.5 h-0.5 bg-cta rounded-full scale-x-0 origin-left transition-transform duration-200;
+  }
+
+  .landing-nav-link:hover::after {
+    @apply scale-x-100;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
   }
 
   /** Orange #FB5D00 — search, download, book, list on app */

@@ -1,8 +1,7 @@
 import { useState } from 'react'
-import { Menu, X, Compass, Map, Star } from 'lucide-react'
-import { ImageWithFallback } from '@/app/components/figma/ImageWithFallback'
-import logo from '@/imports/logo.png'
-import { SECTIONS, sectionHref } from '@/config/site'
+import { Menu, X, Compass, Map, Star, Smartphone } from 'lucide-react'
+import { Logo } from '@/app/components/Logo'
+import { SECTIONS, appDownloadHref, sectionHref } from '@/config/site'
 
 const NAV_LINKS = [
   { label: 'Explore', href: sectionHref(SECTIONS.explore), icon: Compass },
@@ -15,30 +14,37 @@ export function Header() {
 
   return (
     <>
-      <header className="fixed top-0 inset-x-0 z-50 bg-white border-b border-border shadow-sm">
-        <div className="landing-container h-14 md:h-16 flex items-center justify-between gap-4">
-          <a href={sectionHref(SECTIONS.top)} className="flex-shrink-0">
-            <ImageWithFallback src={logo} alt="TripTaptap" className="h-7 md:h-8 w-auto object-contain" />
+      <header className="landing-header fixed top-0 inset-x-0 z-50 bg-white/95 backdrop-blur-md border-b border-border shadow-sm">
+        <div className="landing-container h-full flex items-center justify-between gap-4">
+          <a
+            href={sectionHref(SECTIONS.top)}
+            className="flex-shrink-0 py-1 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+          >
+            <Logo size="lg" />
           </a>
 
-          <nav className="hidden md:flex items-center gap-8">
+          <nav className="hidden md:flex items-center gap-1">
             {NAV_LINKS.map(({ label, href }) => (
               <a
                 key={label}
                 href={href}
-                className="text-sm font-medium text-foreground/80 hover:text-primary transition-colors focus-visible:text-primary"
+                className="landing-nav-link px-3 py-2 text-sm font-semibold text-foreground/75 hover:text-primary transition-colors"
               >
                 {label}
               </a>
             ))}
+            <a href={appDownloadHref('ios')} className="btn-primary ml-3 text-sm py-2 px-4">
+              <Smartphone size={16} />
+              Get the app
+            </a>
           </nav>
 
           <button
-            className="md:hidden p-2 -mr-1 text-foreground"
+            className="md:hidden p-2 -mr-1 text-foreground rounded-lg hover:bg-muted"
             onClick={() => setMenuOpen(true)}
             aria-label="Open menu"
           >
-            <Menu size={22} />
+            <Menu size={24} />
           </button>
         </div>
       </header>
@@ -48,7 +54,7 @@ export function Header() {
           <div className="absolute inset-0 bg-black/40" onClick={() => setMenuOpen(false)} />
           <div className="absolute right-0 top-0 h-full w-[min(300px,85vw)] bg-white shadow-xl flex flex-col">
             <div className="flex items-center justify-between p-4 border-b border-border">
-              <ImageWithFallback src={logo} alt="TripTaptap" className="h-7 w-auto" />
+              <Logo size="md" />
               <button
                 onClick={() => setMenuOpen(false)}
                 className="p-2 text-muted-foreground hover:text-foreground rounded-lg hover:bg-muted"
@@ -69,6 +75,14 @@ export function Header() {
                   {label}
                 </a>
               ))}
+              <a
+                href={appDownloadHref('ios')}
+                onClick={() => setMenuOpen(false)}
+                className="btn-primary mt-3 mx-1 justify-center"
+              >
+                <Smartphone size={16} />
+                Get the app
+              </a>
             </nav>
           </div>
         </div>

@@ -1,8 +1,7 @@
 import { Twitter, Instagram, Facebook, Youtube, Mail, Shield, Lock, CreditCard } from 'lucide-react'
 import { AppStoreBadge } from '@/app/components/AppStoreBadge'
-import { ImageWithFallback } from '@/app/components/figma/ImageWithFallback'
+import { Logo } from '@/app/components/Logo'
 import { mailtoSupport, SECTIONS, SITE, sectionHref } from '@/config/site'
-import logo from '@/imports/logo.png'
 
 const FOOTER_LINKS = [
   {
@@ -31,15 +30,11 @@ const TRUST_ITEMS = [
 
 export function Footer() {
   return (
-    <footer id={SECTIONS.download} className="bg-footer text-white scroll-mt-16">
+    <footer id={SECTIONS.download} className="bg-footer text-white scroll-mt-[var(--header-height)]">
       <div className="landing-container pt-14 pb-24 md:pb-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-10 mb-12">
           <div className="lg:col-span-2">
-            <ImageWithFallback
-              src={logo}
-              alt="TripTaptap"
-              className="h-7 w-auto object-contain brightness-0 invert mb-4"
-            />
+            <Logo size="lg" className="mb-5" />
             <p className="text-white/70 text-sm leading-relaxed mb-6 max-w-xs">{SITE.tagline}</p>
             <div className="flex flex-col gap-2 mb-6">
               <AppStoreBadge store="ios" />
