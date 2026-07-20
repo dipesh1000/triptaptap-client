@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Search, MapPin, Users, Heart, ShoppingCart,
   Globe, User, Star, ArrowRight, ChevronDown,
@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 
 import { LiaMobileAltSolid } from "react-icons/lia";
+import { apiGet } from "../services/api";
 const destinations = [
   {
     city: "Paris",
@@ -104,6 +105,8 @@ const experiences = [
   { icon: "🤿", label: "Watersports", count: "560+" },
 ];
 
+
+
 const trips = [
   {
     title: "Golden Triangle India",
@@ -151,14 +154,17 @@ const trips = [
   },
 ];
 
-const navLinks = ["Hotels", "Flights", "Trips", "Experiences", "Deals"];
+const navLinks = ["Experiences","Destination", "Package", ];
 
 export default function Home() {
   const [wishlist, setWishlist] = useState<Set<string>>(new Set());
   const [destination, setDestination] = useState("");
   const [checkIn, setCheckIn] = useState("");
   const [guests, setGuests] = useState("2 Adults");
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);  
+  const [dest,setDest] = useState([])
+  const [close, setClose] = useState([])
+  const [trending, setTrending] = useState([])
 
   const toggleWishlist = (name: string) => {
     setWishlist((prev) => {
@@ -168,6 +174,28 @@ export default function Home() {
     });
   };
 
+  useEffect(() => {
+    async function fetch() {
+      const response:any = await apiGet("/packages/home-sections");
+      setDest(response.data.featuredDestinations);
+      setClose(response.data.closingSoon)
+      setTrending(response.data.trending)
+      console.log(close);
+      return console.log(response.data)
+    }
+
+    void fetch();
+  }, []);
+
+  // async function fetchDestination(): Promise<any> {
+  //   return await apiGet('/packages/home-sections');
+  // }
+
+  // void fetchDestination().then((data) => {
+  //   setDest(data.data.featuredDestinations)
+  //   console.log(data.data.featuredDestinations, 'From destinations');
+  //   console.log(dest,"this is from console.log")
+  // });
   return (
     <div
       className="min-h-screen bg-background text-foreground"
@@ -186,16 +214,26 @@ export default function Home() {
           </div>
 
           {/* Nav links */}
-          <nav className="hidden lg:flex items-center gap-1">
-            {navLinks.map((link) => (
-              <a
-                key={link}
-                href="#"
-                className="px-3 py-2 text-sm font-medium text-foreground/70 hover:text-primary hover:bg-secondary rounded-lg transition-all"
-              >
-                {link}
-              </a>
-            ))}
+          <nav className="hidden lg:flex ml-45 items-center gap-1">
+            {navLinks.map((link) => {
+              const targetId =
+                link === "Experiences"
+                  ? "experiences"
+                  : link === "Destination"
+                  ? "destination"
+                  : link === "Package"
+                  ? "package"
+                  : "";
+              return (
+                <a
+                  key={link}
+                  href={`#${targetId}`}
+                  className="px-3  py-2 text-sm font-bold text-foreground/70 hover:text-primary hover:bg-secondary rounded-lg transition-all"
+                >
+                  {link}
+                </a>
+              );
+            })}
           </nav>
 
           {/* Actions */}
@@ -206,16 +244,14 @@ export default function Home() {
               <ChevronDown className="w-3 h-3" />
             </button>
             <button className="relative p-2 text-foreground/70 hover:text-primary hover:bg-secondary rounded-lg transition-all">
-              <Heart className="w-5 h-5" />
+              {/* <Heart className="w-5 h-5" /> */}
               {wishlist.size > 0 && (
                 <span className="absolute -top-0.5 -right-0.5 w-4 h-4 bg-accent text-accent-foreground text-[10px] font-bold rounded-full flex items-center justify-center">
                   {wishlist.size}
                 </span>
               )}
             </button>
-            <button className="p-2 text-foreground/70 hover:text-primary hover:bg-secondary rounded-lg transition-all">
-              <ShoppingCart className="w-5 h-5" />
-            </button>
+            
             <button className="hidden sm:flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground text-sm font-medium rounded-lg hover:bg-primary/90 transition-all">
               <LiaMobileAltSolid className="w-4 h-4" />
               Get app
@@ -236,15 +272,26 @@ export default function Home() {
         {/* Mobile menu */}
         {mobileMenuOpen && (
           <div className="lg:hidden border-t border-border bg-white px-4 py-4 flex flex-col gap-1">
-            {navLinks.map((link) => (
-              <a
-                key={link}
-                href="#"
-                className="px-3 py-2.5 text-sm font-medium text-foreground/70 hover:text-primary hover:bg-secondary rounded-lg transition-all"
-              >
-                {link}
-              </a>
-            ))}
+            {navLinks.map((link) => {
+              const targetId =
+                link === "Experiences"
+                  ? "experiences"
+                  : link === "Destination"
+                  ? "destination"
+                  : link === "Package"
+                  ? "package"
+                  : "";
+              return (
+                <a
+                  key={link}
+                  href={`#${targetId}`}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="px-3 py-2.5 text-sm font-medium text-foreground/70 hover:text-primary hover:bg-secondary rounded-lg transition-all"
+                >
+                  {link}
+                </a>
+              );
+            })}
           </div>
         )}
       </header>
@@ -254,7 +301,7 @@ export default function Home() {
         {/* Background */}
         <div className="absolute inset-0">
           <img
-            src="https://images.unsplash.com/photo-1732808460864-b8e5eb489a52?w=1920&h=1080&fit=crop&auto=format"
+            src="https://wallpaperaccess.com/full/1510834.jpg"
             alt="Beautiful travel destination at sunset"
             className="absolute inset-0 w-full h-full object-cover"
           />
@@ -383,50 +430,50 @@ export default function Home() {
       </section>
 
       {/* ── Popular Destinations ── */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+      <section id="experiences" className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         <div className="flex items-end justify-between mb-10">
           <div>
-            <p className="text-accent text-sm font-semibold uppercase tracking-widest mb-2">
+            <p className="text-accent text-black text-sm font-semibold uppercase tracking-widest mb-2">
               Explore the World
             </p>
             <h2
               className="text-4xl font-bold text-foreground"
               style={{ fontFamily: "'Fraunces', serif" }}
             >
-              Popular Destinations
+              Experience
             </h2>
           </div>
           <a
             href="#"
-            className="hidden sm:flex items-center gap-1.5 text-sm font-medium text-primary hover:text-accent transition-colors"
+            className="hidden sm:flex items-center gap-1.5 text-sm font-medium text-primary  hover:text-black transition-colors"
           >
             View all <ChevronRight className="w-4 h-4" />
           </a>
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
-          {destinations.map((dest) => (
+          {close.map((desti:any) => (
             <a
-              key={dest.city}
+              key={desti.id} 
               href="#"
               className="group relative rounded-2xl overflow-hidden cursor-pointer block"
               style={{ aspectRatio: "3/4" }}
             >
               <img
-                src={dest.img}
-                alt={`${dest.city}, ${dest.country}`}
+                src={desti.coverImage}
+                alt={`text`}
                 className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
               <div className="absolute top-3 left-3">
                 <span className="px-2 py-1 bg-accent/90 text-accent-foreground text-[10px] font-semibold rounded-full">
-                  {dest.tag}
+                 tag
                 </span>
               </div>
               <div className="absolute bottom-0 left-0 right-0 p-3">
-                <div className="text-white font-semibold text-sm leading-tight">{dest.city}</div>
-                <div className="text-white/70 text-xs">{dest.country}</div>
-                <div className="text-orange-400 text-xs font-medium mt-1">From {dest.price}</div>
+                <div className="text-white font-semibold text-sm leading-tight">{desti.tripLocation}</div>
+                <div className="text-white/70 text-xs">{desti.title}</div>
+                <div className="text-orange-400 text-xs font-medium mt-1">{desti.price}</div>
               </div>
             </a>
           ))}
@@ -443,7 +490,7 @@ export default function Home() {
             className="text-4xl font-bold text-center text-foreground mb-10"
             style={{ fontFamily: "'Fraunces', serif" }}
           >
-            Browse by Experience
+            Browse by People
           </h2>
           <div className="grid grid-cols-3 sm:grid-cols-6 gap-4">
             {experiences.map((exp) => (
@@ -465,10 +512,10 @@ export default function Home() {
       </section>
 
       {/* ── Featured Hotels ── */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+      <section id="destination" className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         <div className="flex items-end justify-between mb-10">
           <div>
-            <p className="text-accent text-sm font-semibold uppercase tracking-widest mb-2">
+            <p className="text-accent text-black text-sm font-semibold uppercase tracking-widest mb-2">
               Where to Stay
             </p>
             <h2
@@ -480,21 +527,21 @@ export default function Home() {
           </div>
           <a
             href="#"
-            className="hidden sm:flex items-center gap-1.5 text-sm font-medium text-primary hover:text-accent transition-colors"
+            className="hidden sm:flex items-center gap-1.5 text-sm font-medium text-primary hover:text-black transition-colors"
           >
-            All hotels <ChevronRight className="w-4 h-4" />
+            All Destination <ChevronRight className="w-4 h-4" />
           </a>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          {hotels.map((hotel) => (
+          {dest.map((hotel:any) => (
             <div
-              key={hotel.name}
+              key={hotel.id}
               className="group bg-card rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-border"
             >
               <div className="relative overflow-hidden" style={{ height: 220 }}>
                 <img
-                  src={hotel.img}
+                  src={hotel.image}
                   alt={hotel.name}
                   className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
@@ -517,13 +564,13 @@ export default function Home() {
                     </h3>
                     <div className="flex items-center gap-1 mt-1 text-muted-foreground text-sm">
                       <MapPin className="w-3 h-3" />
-                      {hotel.location}
+                     {hotel.region}
                     </div>
                   </div>
                 </div>
 
                 <div className="flex items-center gap-1.5 mb-3">
-                  <div className="flex items-center gap-0.5">
+                  {/* <div className="flex items-center gap-0.5">
                     {[...Array(5)].map((_, i) => (
                       <Star
                         key={i}
@@ -532,12 +579,12 @@ export default function Home() {
                         }`}
                       />
                     ))}
-                  </div>
-                  <span className="text-sm font-semibold text-foreground">{hotel.rating}</span>
-                  <span className="text-sm text-muted-foreground">({hotel.reviews.toLocaleString()})</span>
+                  </div> */}
+                  <span className="text-sm font-semibold text-foreground">rating</span>
+                  <span className="text-sm text-muted-foreground">review</span>
                 </div>
 
-                <div className="flex flex-wrap gap-1.5 mb-4">
+                {/* <div className="flex flex-wrap gap-1.5 mb-4">
                   {hotel.tags.map((tag) => (
                     <span
                       key={tag}
@@ -546,7 +593,7 @@ export default function Home() {
                       {tag}
                     </span>
                   ))}
-                </div>
+                </div> */}
 
                 <div className="flex items-center justify-between pt-4 border-t border-border">
                   <div>
@@ -554,7 +601,7 @@ export default function Home() {
                       className="text-xl font-bold text-foreground"
                       style={{ fontFamily: "'Fraunces', serif" }}
                     >
-                      {hotel.price}
+                     price
                     </span>
                     <span className="text-sm text-muted-foreground"> / night</span>
                   </div>
@@ -569,43 +616,43 @@ export default function Home() {
       </section>
 
       {/* ── Trip Packages ── */}
-      <section className="bg-secondary py-20">
+      <section id="package" className="bg-secondary py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-end justify-between mb-10">
             <div>
-              <p className="text-accent text-sm font-semibold uppercase tracking-widest mb-2">
+              <p className="text-accent text-sm text-black font-semibold uppercase tracking-widest mb-2">
                 All-Inclusive
               </p>
-              <h2
+               <h2
                 className="text-4xl font-bold text-foreground"
                 style={{ fontFamily: "'Fraunces', serif" }}
               >
-                Curated Trip Packages
+                Closing Soon Packages
               </h2>
             </div>
             <a
               href="#"
-              className="hidden sm:flex items-center gap-1.5 text-sm font-medium text-primary hover:text-accent transition-colors"
+              className="hidden sm:flex items-center gap-1.5 text-sm font-medium text-primary hover:text-black transition-colors"
             >
               All packages <ChevronRight className="w-4 h-4" />
             </a>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            {trips.map((trip) => (
+            {close.map((trip:any) => (
               <div
                 key={trip.title}
                 className="group bg-card rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-border"
               >
                 <div className="relative overflow-hidden" style={{ height: 200 }}>
                   <img
-                    src={trip.img}
+                    src={trip.coverImage}
                     alt={trip.title}
                     className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                   <div className="absolute top-3 left-3">
                     <span className="px-3 py-1 bg-accent text-accent-foreground text-xs font-bold rounded-full">
-                      {trip.discount}
+                      discount
                     </span>
                   </div>
                   <button
@@ -623,12 +670,12 @@ export default function Home() {
                 <div className="p-5">
                   <div className="flex items-center gap-1 text-muted-foreground text-xs mb-2">
                     <Clock className="w-3.5 h-3.5" />
-                    {trip.duration}
+                  duration
                   </div>
                   <h3 className="font-semibold text-foreground text-[15px] mb-2">{trip.title}</h3>
 
                   <div className="flex items-center gap-1.5 mb-3">
-                    <div className="flex items-center gap-0.5">
+                    {/* <div className="flex items-center gap-0.5">
                       {[...Array(5)].map((_, i) => (
                         <Star
                           key={i}
@@ -637,18 +684,18 @@ export default function Home() {
                           }`}
                         />
                       ))}
-                    </div>
-                    <span className="text-xs font-semibold text-foreground">{trip.rating}</span>
-                    <span className="text-xs text-muted-foreground">({trip.reviews})</span>
+                    </div> */}
+                    <span className="text-xs font-semibold text-foreground">rating</span>
+                    <span className="text-xs text-muted-foreground">Review</span>
                   </div>
 
-                  <div className="flex flex-wrap gap-1.5 mb-4">
+                  {/* <div className="flex flex-wrap gap-1.5 mb-4">
                     {trip.includes.map((inc) => (
                       <span key={inc} className="px-2.5 py-1 bg-primary/8 text-primary text-xs rounded-full font-medium border border-primary/15">
                         ✓ {inc}
                       </span>
                     ))}
-                  </div>
+                  </div> */}
 
                   <div className="flex items-center justify-between pt-4 border-t border-border">
                     <div>
@@ -677,7 +724,7 @@ export default function Home() {
       <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div>
-            <p className="text-accent text-sm font-semibold uppercase tracking-widest mb-4">
+            <p className="text-accent text-black text-sm font-semibold uppercase tracking-widest mb-4">
               Why TripTaptap
             </p>
             <h2
@@ -795,7 +842,7 @@ export default function Home() {
       </section>
 
       {/* ── Footer ── */}
-      <footer className="bg-foreground text-white">
+      <footer className="bg-primary text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-8">
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 mb-12">
             {/* Brand */}
@@ -868,9 +915,9 @@ export default function Home() {
                 <Phone className="w-4 h-4" />
                 +1 (888) 900-TRAVEL
               </a>
-              <a href="mailto:hello@wandera.com" className="flex items-center gap-2 hover:text-white/70 transition-colors">
+              <a href="mailto:triptaptap.com" className="flex items-center gap-2 hover:text-white/70 transition-colors">
                 <Mail className="w-4 h-4" />
-                hello@wandera.com
+                triptaptap.com
               </a>
             </div>
             <p className="text-white/30 text-xs">
@@ -879,6 +926,7 @@ export default function Home() {
           </div>
         </div>
       </footer>
+     
     </div>
   );
 }

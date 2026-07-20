@@ -1,4 +1,4 @@
-import { API_BASE_URL } from '@/config/api'
+import { API_BASE_URL } from '../config/api'
 
 export async function apiGet<T>(path: string, signal?: AbortSignal): Promise<T> {
   const res = await fetch(`${API_BASE_URL}${path}`, {
