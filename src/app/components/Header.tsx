@@ -1,12 +1,12 @@
 import { useState } from 'react'
 import { Menu, X, Compass, Map, Star, Smartphone } from 'lucide-react'
 import { Logo } from '@/app/components/Logo'
-import { SECTIONS, appDownloadHref, sectionHref } from '@/config/site'
+import { SECTIONS, appDownloadHref } from '@/config/site'
 
 const NAV_LINKS = [
-  { label: 'Explore', href: sectionHref(SECTIONS.explore), icon: Compass },
-  { label: 'Experiences', href: sectionHref(SECTIONS.trips), icon: Map },
-  { label: 'Reviews', href: sectionHref(SECTIONS.reviews), icon: Star },
+  { label: 'Explore', href: `/#${SECTIONS.explore}`, icon: Compass },
+  { label: 'Experiences', href: `/#${SECTIONS.trips}`, icon: Map },
+  { label: 'Reviews', href: `/#${SECTIONS.reviews}`, icon: Star },
 ] as const
 
 export function Header() {
@@ -17,7 +17,7 @@ export function Header() {
       <header className="landing-header fixed top-0 inset-x-0 z-50 bg-white/95 backdrop-blur-md border-b border-border shadow-sm">
         <div className="landing-container h-full flex items-center justify-between gap-4">
           <a
-            href={sectionHref(SECTIONS.top)}
+            href="/"
             className="flex-shrink-0 py-1 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
           >
             <Logo size="lg" />

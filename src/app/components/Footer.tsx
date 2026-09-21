@@ -1,7 +1,7 @@
 import { Twitter, Instagram, Facebook, Youtube, Mail, Shield, Lock, CreditCard } from 'lucide-react'
 import { AppStoreBadge } from '@/app/components/AppStoreBadge'
 import { Logo } from '@/app/components/Logo'
-import { mailtoSupport, SECTIONS, SITE, sectionHref } from '@/config/site'
+import { mailtoSupport, PRIVACY_POLICY_PATH, SECTIONS, SITE, sectionHref } from '@/config/site'
 
 const FOOTER_LINKS = [
   {
@@ -94,7 +94,13 @@ export function Footer() {
           {['Privacy', 'Terms', 'Cookies', 'Contact'].map((link) => (
             <a
               key={link}
-              href={link === 'Contact' ? mailtoSupport() : sectionHref(SECTIONS.top)}
+              href={
+                link === 'Contact'
+                  ? mailtoSupport()
+                  : link === 'Privacy'
+                    ? PRIVACY_POLICY_PATH
+                    : sectionHref(SECTIONS.top)
+              }
               className="text-xs text-white/45 hover:text-white/70 transition-colors"
             >
               {link}

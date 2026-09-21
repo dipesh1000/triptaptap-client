@@ -849,7 +849,7 @@ export default function Home() {
                   {col.links.map((link) => (
                     <li key={link}>
                       <a
-                        href="#"
+                        href={link === "Privacy Policy" ? "/privacy-policy" : "#"}
                         className="text-white/50 text-sm hover:text-white transition-colors"
                       >
                         {link}

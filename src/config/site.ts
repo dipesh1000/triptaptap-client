@@ -8,6 +8,9 @@ export const SITE = {
   supportEmail: 'support@triptaptap.com',
 } as const
 
+export const PRIVACY_POLICY_PATH = '/privacy-policy'
+export const PRIVACY_POLICY_URL = `${SITE.domain}${PRIVACY_POLICY_PATH}`
+
 /** Set in .env when store URLs are available (VITE_APP_STORE_URL, VITE_PLAY_STORE_URL). */
 export const APP_STORE_URL = import.meta.env.VITE_APP_STORE_URL ?? ''
 export const PLAY_STORE_URL = import.meta.env.VITE_PLAY_STORE_URL ?? ''
