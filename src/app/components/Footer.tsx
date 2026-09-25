@@ -87,7 +87,22 @@ export function Footer() {
               </span>
             ))}
           </div>
-          <p className="text-xs text-white/45">© {new Date().getFullYear()} TripTaptap. All rights reserved.</p>
+          <p className="text-xs text-white/45">
+            © {new Date().getFullYear()} {SITE.legalName}. All rights reserved.
+          </p>
+        </div>
+
+        <div className="mt-4 flex flex-col gap-1 text-xs text-white/45">
+          <p>{SITE.address}</p>
+          <p>
+            <a href={SITE.phoneHref} className="hover:text-white/70 transition-colors">
+              {SITE.phoneDisplay}
+            </a>
+            {' · '}
+            <a href={mailtoSupport()} className="hover:text-white/70 transition-colors">
+              {SITE.supportEmail}
+            </a>
+          </p>
         </div>
 
         <div className="flex flex-wrap gap-4 md:gap-6 mt-6">

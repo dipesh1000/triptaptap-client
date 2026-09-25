@@ -863,18 +863,21 @@ export default function Home() {
 
           {/* Contact bar */}
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-8 border-t border-white/10">
-            <div className="flex items-center gap-6 text-sm text-white/40">
-              <a href="tel:+18889006872" className="flex items-center gap-2 hover:text-white/70 transition-colors">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6 text-sm text-white/40">
+              <a href="tel:+9779863542297" className="flex items-center gap-2 hover:text-white/70 transition-colors">
                 <Phone className="w-4 h-4" />
-                +1 (888) 900-TRAVEL
+                +977 9863542297
               </a>
-              <a href="mailto:hello@wandera.com" className="flex items-center gap-2 hover:text-white/70 transition-colors">
+              <a href="mailto:Info@triptaptap.com" className="flex items-center gap-2 hover:text-white/70 transition-colors">
                 <Mail className="w-4 h-4" />
-                hello@wandera.com
+                Info@triptaptap.com
               </a>
+              <span className="text-white/35 text-xs sm:text-sm">
+                3, Changunarayan Municipality, Bagmati, Nepal
+              </span>
             </div>
-            <p className="text-white/30 text-xs">
-              © 2026 TripTaptap, Inc. All rights reserved.
+            <p className="text-white/30 text-xs text-center sm:text-right">
+              © {new Date().getFullYear()} TRIP TAPTAP PVT LTD. All rights reserved.
             </p>
           </div>
         </div>

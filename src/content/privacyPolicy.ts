@@ -16,7 +16,7 @@ export const PRIVACY_SECTIONS: PrivacySection[] = [
     heading: '1. Who we are',
     paragraphs: [
       'TripTaptap is a travel marketplace that helps travellers discover and book tours, trips, and local experiences offered by independent operators and vendors. We also provide tools for operators to list experiences, manage bookings, and communicate with travellers.',
-      'For questions about this Policy or our handling of personal information, contact us at support@triptaptap.com.',
+      'For questions about this Policy or our handling of personal information, contact us at Info@triptaptap.com.',
     ],
   },
   {
@@ -107,7 +107,7 @@ export const PRIVACY_SECTIONS: PrivacySection[] = [
     id: 'rights',
     heading: '10. Your choices and rights',
     paragraphs: [
-      'Subject to applicable law, you may have the right to access, correct, update, delete, or export your personal information, to object to or restrict certain processing, and to withdraw consent. You can review much of your profile information in the app. To exercise other rights, email support@triptaptap.com. We may need to verify your identity before fulfilling a request, and we may decline requests that are unlawful, excessive, or would interfere with others’ rights or our legal obligations.',
+      'Subject to applicable law, you may have the right to access, correct, update, delete, or export your personal information, to object to or restrict certain processing, and to withdraw consent. You can review much of your profile information in the app. To exercise other rights, email Info@triptaptap.com. We may need to verify your identity before fulfilling a request, and we may decline requests that are unlawful, excessive, or would interfere with others’ rights or our legal obligations.',
       'You can also control push notifications, location, camera, and photo access in your device settings; unsubscribe from marketing emails using the link in those messages; and delete your account by contacting support where in-app deletion is not available.',
     ],
   },
@@ -115,7 +115,7 @@ export const PRIVACY_SECTIONS: PrivacySection[] = [
     id: 'children',
     heading: '11. Children',
     paragraphs: [
-      'The Services are not directed to children under 13 (or the equivalent minimum age in your country). We do not knowingly collect personal information from children below that age except as traveller details a parent or guardian provides for a booking. If you believe we have collected information from a child in error, contact support@triptaptap.com and we will take appropriate steps to delete it.',
+      'The Services are not directed to children under 13 (or the equivalent minimum age in your country). We do not knowingly collect personal information from children below that age except as traveller details a parent or guardian provides for a booking. If you believe we have collected information from a child in error, contact Info@triptaptap.com and we will take appropriate steps to delete it.',
     ],
   },
   {
@@ -136,8 +136,10 @@ export const PRIVACY_SECTIONS: PrivacySection[] = [
     id: 'contact',
     heading: '14. Contact',
     paragraphs: [
-      'Privacy requests, questions, and complaints: support@triptaptap.com',
-      'Website: https://triptaptap.com',
+      'Controller: TRIP TAPTAP PVT LTD, 3, Changunarayan Municipality, Bagmati, Nepal.',
+      'Privacy requests, questions, and complaints: Info@triptaptap.com',
+      'Phone: +977 9863542297',
+      'Website: https://www.triptaptap.com',
       'If you are unsatisfied with our response, you may have the right to contact a data-protection or consumer authority in your country.',
     ],
   },
