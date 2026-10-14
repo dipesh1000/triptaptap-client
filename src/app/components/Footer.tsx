@@ -1,126 +1,92 @@
-import { Twitter, Instagram, Facebook, Youtube, Mail, Shield, Lock, CreditCard } from 'lucide-react'
 import { AppStoreBadge } from '@/app/components/AppStoreBadge'
-import { Logo } from '@/app/components/Logo'
-import { mailtoSupport, PRIVACY_POLICY_PATH, SECTIONS, SITE, sectionHref } from '@/config/site'
+import { mailtoSupport, PRIVACY_POLICY_PATH, DELETE_ACCOUNT_PATH, SECTIONS, SITE } from '@/config/site'
 
-const FOOTER_LINKS = [
+const COLUMNS = [
   {
     title: 'Explore',
-    links: ['Experiences', 'Pet-friendly', 'Adventure', 'Cultural tours'],
+    links: [
+      { label: 'Destinations', href: '#explore' },
+      { label: 'Experiences', href: '#explore' },
+      { label: 'Trip packages', href: '#explore' },
+    ],
   },
   {
     title: 'Company',
-    links: ['About', 'Careers', 'Press', 'Partners'],
-  },
-  {
-    title: 'Operators',
-    links: ['List an experience', 'Operator app', 'Payouts', 'Guidelines'],
+    links: [
+      { label: 'Become a host', href: '#host' },
+      { label: 'Privacy', href: PRIVACY_POLICY_PATH },
+      { label: 'Delete account', href: DELETE_ACCOUNT_PATH },
+    ],
   },
   {
     title: 'Support',
-    links: ['Help center', 'Cancellations', 'Refund policy', 'Safety'],
+    links: [
+      { label: 'Contact', href: mailtoSupport() },
+      { label: 'Cancellations', href: mailtoSupport('Cancellations') },
+    ],
   },
 ]
 
-const TRUST_ITEMS = [
-  { icon: Lock, label: 'SSL encrypted' },
-  { icon: CreditCard, label: 'Secure payments' },
-  { icon: Shield, label: 'Protected bookings' },
-]
-
 export function Footer() {
+  const year = new Date().getFullYear()
+
   return (
-    <footer id={SECTIONS.download} className="bg-footer text-white scroll-mt-[var(--header-height)]">
-      <div className="landing-container pt-14 pb-24 md:pb-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-10 mb-12">
-          <div className="lg:col-span-2">
-            <Logo size="lg" className="mb-5" />
-            <p className="text-white/70 text-sm leading-relaxed mb-6 max-w-xs">{SITE.tagline}</p>
-            <div className="flex flex-col gap-2 mb-6">
+    <footer id={SECTIONS.download} className="scroll-mt-20 border-t border-slate-800 bg-slate-900 text-slate-300">
+      <div className="landing-container py-16 md:py-20">
+        <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-12 lg:gap-16">
+          <div className="lg:col-span-3">
+            <img
+              src="/triptaptap-logo.png"
+              alt="Trip Taptap"
+              className="mb-5 h-10 w-auto object-contain"
+            />
+            <p className="max-w-xs text-sm leading-relaxed text-slate-400">{SITE.tagline}</p>
+            <p className="mt-6 text-xs font-medium tracking-wide text-slate-500">{SITE.legalName}</p>
+            <p className="mt-1 max-w-xs text-xs leading-relaxed text-slate-500">{SITE.address}</p>
+          </div>
+
+          <div className="lg:col-span-4">
+            <p className="text-sm font-semibold text-white">Download the Trip Taptap App</p>
+            <p className="mt-3 max-w-xs text-sm leading-relaxed text-slate-400">
+              Book on the go, manage trips, and unlock mobile-only offers.
+            </p>
+            <div className="mt-5 flex flex-col items-start gap-2.5">
               <AppStoreBadge store="ios" />
               <AppStoreBadge store="android" />
             </div>
-            <div className="flex items-center gap-2">
-              {[Twitter, Instagram, Facebook, Youtube, Mail].map((Icon, i) => (
-                <a
-                  key={i}
-                  href={i === 4 ? mailtoSupport('Newsletter') : sectionHref(SECTIONS.top)}
-                  aria-label="Social"
-                  className="w-9 h-9 rounded-lg bg-white/10 hover:bg-white/15 flex items-center justify-center text-white/80 hover:text-white transition-colors"
-                >
-                  <Icon size={17} />
-                </a>
-              ))}
-            </div>
           </div>
 
-          {FOOTER_LINKS.map(({ title, links }) => (
-            <div key={title}>
-              <p className="text-sm font-semibold text-white mb-4">{title}</p>
-              <ul className="flex flex-col gap-2.5">
-                {links.map((link) => {
-                  const href =
-                    link === 'List an experience' || link === 'Operator app'
-                      ? sectionHref(SECTIONS.download)
-                      : ['Help center', 'Cancellations', 'Refund policy'].includes(link)
-                        ? mailtoSupport(link)
-                        : sectionHref(SECTIONS.top)
-                  return (
-                    <li key={link}>
-                      <a href={href} className="text-sm text-white/60 hover:text-white transition-colors">
-                        {link}
+          <div className="grid grid-cols-3 gap-8 sm:col-span-2 lg:col-span-5">
+            {COLUMNS.map((col) => (
+              <div key={col.title}>
+                <p className="mb-4 text-sm font-semibold text-white">{col.title}</p>
+                <ul className="space-y-3">
+                  {col.links.map((link) => (
+                    <li key={link.label}>
+                      <a href={link.href} className="text-sm text-slate-400 hover:text-white transition-colors">
+                        {link.label}
                       </a>
                     </li>
-                  )
-                })}
-              </ul>
-            </div>
-          ))}
-        </div>
-
-        <div className="border-t border-white/15 pt-8 flex flex-col md:flex-row gap-6 md:items-center md:justify-between">
-          <div className="flex flex-wrap gap-5">
-            {TRUST_ITEMS.map(({ icon: Icon, label }) => (
-              <span key={label} className="flex items-center gap-2 text-xs text-white/55">
-                <Icon size={14} />
-                {label}
-              </span>
+                  ))}
+                </ul>
+              </div>
             ))}
           </div>
-          <p className="text-xs text-white/45">
-            © {new Date().getFullYear()} {SITE.legalName}. All rights reserved.
-          </p>
         </div>
 
-        <div className="mt-4 flex flex-col gap-1 text-xs text-white/45">
-          <p>{SITE.address}</p>
-          <p>
-            <a href={SITE.phoneHref} className="hover:text-white/70 transition-colors">
+        <div className="mt-12 flex flex-col items-center justify-between gap-3 border-t border-slate-800/60 pt-6 text-xs text-slate-500 sm:flex-row">
+          <p>© {year} {SITE.legalName}. All rights reserved.</p>
+          <p className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1">
+            <a href={SITE.phoneHref} className="hover:text-white transition-colors">
               {SITE.phoneDisplay}
             </a>
-            {' · '}
-            <a href={mailtoSupport()} className="hover:text-white/70 transition-colors">
+            <span aria-hidden className="text-slate-700">
+              ·
+            </span>
+            <a href={mailtoSupport()} className="hover:text-white transition-colors">
               {SITE.supportEmail}
             </a>
           </p>
-        </div>
-
-        <div className="flex flex-wrap gap-4 md:gap-6 mt-6">
-          {['Privacy', 'Terms', 'Cookies', 'Contact'].map((link) => (
-            <a
-              key={link}
-              href={
-                link === 'Contact'
-                  ? mailtoSupport()
-                  : link === 'Privacy'
-                    ? PRIVACY_POLICY_PATH
-                    : sectionHref(SECTIONS.top)
-              }
-              className="text-xs text-white/45 hover:text-white/70 transition-colors"
-            >
-              {link}
-            </a>
-          ))}
         </div>
       </div>
     </footer>

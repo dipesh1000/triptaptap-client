@@ -1,8 +1,7 @@
 /**
- * TripTaptap landing page brand (marketing site only — app theme unchanged).
- *
- * Blue  #2263B0 — identity: nav, links, icons, footer, hero overlay, badges
- * Orange #FB5D00 — action: primary buttons, search CTA, key conversions
+ * TripTaptap marketing site brand.
+ * Blue  #2263B0 — identity, links, active states
+ * Orange #FB5D00 — primary CTAs
  */
 export const BRAND = {
   blue: '#2263B0',
@@ -12,9 +11,11 @@ export const BRAND = {
   cta: '#FB5D00',
   ctaHover: '#E55300',
   ctaLight: '#FFF4ED',
-  foreground: '#0A161D',
-  background: '#F4F5FF',
-  muted: '#686868',
-  success: '#0CAE4A',
-  star: '#F5B544',
+  foreground: '#222222',
+  muted: '#717171',
+  background: '#FFFFFF',
+  surface: '#F7F7F7',
+  border: '#EBEBEB',
+  star: '#222222',
+  footer: '#1A4F94',
 } as const
