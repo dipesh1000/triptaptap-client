@@ -1,5 +1,5 @@
 /**
- * Marketing site URLs and copy. Update store links when App Store / Play listings are live.
+ * Marketing site URLs and copy.
  */
 export const SITE = {
   name: 'TripTaptap',
@@ -11,16 +11,24 @@ export const SITE = {
   phoneDisplay: '+977 9863542297',
   phoneHref: 'tel:+9779863542297',
   address: '3, Changunarayan Municipality, Bagmati, Nepal',
+  supportHours: 'Sunday through Friday, 9:00 AM to 6:00 PM NPT',
 } as const
 
+export const PRIVACY_PATH = '/privacy'
 export const PRIVACY_POLICY_PATH = '/privacy-policy'
 export const PRIVACY_POLICY_URL = `${SITE.domain}${PRIVACY_POLICY_PATH}`
 export const DELETE_ACCOUNT_PATH = '/delete-account'
 export const DELETE_ACCOUNT_URL = `${SITE.domain}${DELETE_ACCOUNT_PATH}`
+export const CONTACT_PATH = '/contact'
+export const CANCELLATIONS_PATH = '/cancellations'
 
-/** Set in .env when store URLs are available (VITE_APP_STORE_URL, VITE_PLAY_STORE_URL). */
-export const APP_STORE_URL = import.meta.env.VITE_APP_STORE_URL ?? ''
-export const PLAY_STORE_URL = import.meta.env.VITE_PLAY_STORE_URL ?? ''
+/** Override with VITE_APP_STORE_URL / VITE_PLAY_STORE_URL when needed. */
+export const APP_STORE_URL =
+  import.meta.env.VITE_APP_STORE_URL ||
+  'https://apps.apple.com/us/app/triptaptap/id6755958719'
+export const PLAY_STORE_URL =
+  import.meta.env.VITE_PLAY_STORE_URL ||
+  'https://play.google.com/store/apps/details?id=com.triptaptap.app&hl=en'
 
 export const SECTIONS = {
   top: 'top',

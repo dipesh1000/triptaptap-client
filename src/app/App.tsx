@@ -8,6 +8,7 @@ import {
   Star,
   ArrowRight,
 } from 'lucide-react'
+import { useAppDownloadGate } from '@/app/components/AppDownloadPrompt'
 import { Footer } from '@/app/components/Footer'
 import { SITE } from '@/config/site'
 import { fetchCategories, type SiteCategory } from '@/services/categoryService'
@@ -184,15 +185,29 @@ function ListingCardView({
   item,
   liked,
   onToggleLike,
+  onOpen,
   aspect = 'square',
 }: {
   item: ListingCard
   liked: boolean
   onToggleLike: () => void
+  onOpen: () => void
   aspect?: 'square' | 'landscape'
 }) {
   return (
-    <article className="group cursor-pointer">
+    <article
+      role="button"
+      tabIndex={0}
+      onClick={onOpen}
+      onKeyDown={(e) => {
+        if (e.target !== e.currentTarget) return
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault()
+          onOpen()
+        }
+      }}
+      className="group cursor-pointer"
+    >
       <div
         className={`listing-card-img relative mb-3 border border-slate-100 bg-slate-100 shadow-xs transition-shadow hover:shadow-md ${
           aspect === 'square' ? 'aspect-square' : 'aspect-[4/3]'
@@ -204,6 +219,7 @@ function ListingCardView({
           aria-label={liked ? 'Remove from wishlist' : 'Save to wishlist'}
           onClick={(e) => {
             e.preventDefault()
+            e.stopPropagation()
             onToggleLike()
           }}
           className={`absolute right-3 top-3 rounded-full bg-white/80 p-2 backdrop-blur-xs transition-colors hover:text-sky-500 ${
@@ -240,6 +256,7 @@ export default function Home() {
   const [who, setWho] = useState(2)
   const [menuOpen, setMenuOpen] = useState(false)
   const [showNavSearch, setShowNavSearch] = useState(false)
+  const { requestDownload, dialog: downloadDialog } = useAppDownloadGate()
 
   useEffect(() => {
     const controller = new AbortController()
@@ -288,7 +305,7 @@ export default function Home() {
 
           <button
             type="button"
-            onClick={() => document.getElementById('hero-search')?.scrollIntoView({ behavior: 'smooth' })}
+            onClick={requestDownload}
             className={`search-pill absolute left-1/2 hidden -translate-x-1/2 items-center rounded-full border border-border bg-white py-2 pl-2 pr-2 text-sm transition-all duration-200 md:flex ${
               showNavSearch
                 ? 'pointer-events-auto scale-100 opacity-100'
@@ -347,7 +364,7 @@ export default function Home() {
             <a href="#host" className="block px-4 py-3 text-sm hover:bg-secondary">
               Become a host
             </a>
-            <a href="/privacy-policy" className="block px-4 py-3 text-sm hover:bg-secondary">
+            <a href="/privacy" className="block px-4 py-3 text-sm hover:bg-secondary">
               Privacy
             </a>
             <a
@@ -382,7 +399,15 @@ export default function Home() {
             </p>
           </div>
 
-          <div id="hero-search" className="hero-search mt-8 max-w-2xl xl:max-w-3xl">
+          <div
+            id="hero-search"
+            className="hero-search mt-8 max-w-2xl xl:max-w-3xl"
+            onMouseDownCapture={(e) => e.preventDefault()}
+            onClickCapture={(e) => {
+              e.preventDefault()
+              requestDownload()
+            }}
+          >
             <label className="hero-search-field cursor-text">
               <span className="text-[11px] font-medium text-slate-500">Where</span>
               <input
@@ -434,14 +459,14 @@ export default function Home() {
               </div>
             </div>
 
-            <a
-              href="#explore"
+            <button
+              type="button"
               className="ml-1 inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-sky-500 text-sm font-semibold text-white transition-colors duration-200 hover:bg-sky-600 sm:w-auto sm:gap-2 sm:px-5"
               aria-label="Search"
             >
               <Search size={16} strokeWidth={2.25} />
               <span className="hidden sm:inline">Search</span>
-            </a>
+            </button>
           </div>
         </div>
       </section>
@@ -493,6 +518,7 @@ export default function Home() {
                   item={item}
                   liked={wishlist.has(item.id)}
                   onToggleLike={() => toggleWishlist(item.id)}
+                  onOpen={requestDownload}
                   aspect="square"
                 />
               ))}
@@ -511,6 +537,7 @@ export default function Home() {
                   item={item}
                   liked={wishlist.has(item.id)}
                   onToggleLike={() => toggleWishlist(item.id)}
+                  onOpen={requestDownload}
                   aspect="landscape"
                 />
               ))}
@@ -529,6 +556,7 @@ export default function Home() {
                   item={item}
                   liked={wishlist.has(item.id)}
                   onToggleLike={() => toggleWishlist(item.id)}
+                  onOpen={requestDownload}
                   aspect="landscape"
                 />
               ))}
@@ -563,6 +591,7 @@ export default function Home() {
       </main>
 
       <Footer />
+      {downloadDialog}
     </div>
   )
 }

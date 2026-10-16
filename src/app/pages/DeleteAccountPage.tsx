@@ -25,10 +25,14 @@ export default function DeleteAccountPage() {
           <h2 className="text-lg font-semibold mb-3">How to delete your account in the app</h2>
           <ol className="list-decimal pl-5 flex flex-col gap-2 text-sm leading-7 text-foreground/80">
             <li>Open the TripTaptap app and sign in.</li>
-            <li>Go to Account (or Profile).</li>
-            <li>Choose Delete account and confirm twice.</li>
-            <li>Your account is removed immediately after confirmation.</li>
+            <li>Open Profile.</li>
+            <li>Open Settings.</li>
+            <li>Open Account Management.</li>
+            <li>Choose Delete Account and confirm.</li>
           </ol>
+          <p className="text-sm leading-7 text-foreground/80 mt-3">
+            Deletion runs from the app after you confirm. Sign-in for that account stops once the request is completed.
+          </p>
         </section>
 
         <section className="mb-10">

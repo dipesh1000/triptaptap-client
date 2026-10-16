@@ -1,28 +1,36 @@
 import { AppStoreBadge } from '@/app/components/AppStoreBadge'
-import { mailtoSupport, PRIVACY_POLICY_PATH, DELETE_ACCOUNT_PATH, SECTIONS, SITE } from '@/config/site'
+import {
+  mailtoSupport,
+  PRIVACY_PATH,
+  DELETE_ACCOUNT_PATH,
+  CONTACT_PATH,
+  CANCELLATIONS_PATH,
+  SECTIONS,
+  SITE,
+} from '@/config/site'
 
 const COLUMNS = [
   {
     title: 'Explore',
     links: [
-      { label: 'Destinations', href: '#explore' },
-      { label: 'Experiences', href: '#explore' },
-      { label: 'Trip packages', href: '#explore' },
+      { label: 'Destinations', href: '/#explore' },
+      { label: 'Experiences', href: '/#explore' },
+      { label: 'Trip packages', href: '/#explore' },
     ],
   },
   {
     title: 'Company',
     links: [
-      { label: 'Become a host', href: '#host' },
-      { label: 'Privacy', href: PRIVACY_POLICY_PATH },
+      { label: 'Become a host', href: '/#host' },
+      { label: 'Privacy', href: PRIVACY_PATH },
       { label: 'Delete account', href: DELETE_ACCOUNT_PATH },
     ],
   },
   {
     title: 'Support',
     links: [
-      { label: 'Contact', href: mailtoSupport() },
-      { label: 'Cancellations', href: mailtoSupport('Cancellations') },
+      { label: 'Contact', href: CONTACT_PATH },
+      { label: 'Cancellations', href: CANCELLATIONS_PATH },
     ],
   },
 ]
