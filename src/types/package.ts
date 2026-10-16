@@ -10,6 +10,17 @@ export interface HomePackage {
   ratingAverage?: number
   bookCloseDate?: string
   isFeatured?: boolean
+  vendorName?: string | null
+  vendorDisplay?: { name?: string }
+  vendor?: { username?: string; vendorProfile?: { company_name?: string } }
+  tripLocation?: string
+  tripStartsFrom?: string
+  category?: Array<string | { _id?: string }>
+  availability?: {
+    date?: string
+    capacity?: number
+    booked?: number
+  }
   reviews?: Array<{ rating?: number }>
   tripPlanner?: {
     startDate?: string
@@ -45,5 +56,6 @@ export interface HomeSectionsResponse {
   closingSoon: HomePackage[]
   featured: HomePackage[]
   featuredDestinations: FeaturedDestination[]
+  categories: Array<{ _id: string; name: string; icon?: string }>
   hero: { slides: HeroSlide[] }
 }

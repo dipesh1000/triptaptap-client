@@ -52,7 +52,8 @@ export function useHomeSections() {
     data.trending.length > 0 ||
     data.featured.length > 0 ||
     data.hero.slides.length > 0 ||
-    data.featuredDestinations.length > 0
+    data.featuredDestinations.length > 0 ||
+    data.categories.length > 0
 
   return { data, loading, error, hasLiveData }
 }

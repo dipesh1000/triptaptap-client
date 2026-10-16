@@ -1,4 +1,4 @@
-import type { HomeSectionsResponse } from '@/types/package'
+import type { HomePackage, HomeSectionsResponse } from '@/types/package'
 import { apiGet } from './api'
 
 interface HomeSectionsApiResponse {
@@ -11,6 +11,7 @@ const emptySections = (): HomeSectionsResponse => ({
   closingSoon: [],
   featured: [],
   featuredDestinations: [],
+  categories: [],
   hero: { slides: [] },
 })
 
@@ -25,10 +26,20 @@ export async function fetchHomeSections(signal?: AbortSignal): Promise<HomeSecti
     featuredDestinations: Array.isArray(data?.featuredDestinations)
       ? data.featuredDestinations
       : [],
+    categories: Array.isArray(data?.categories) ? data.categories : [],
     hero: {
       slides: Array.isArray(data?.hero?.slides) ? data.hero.slides : [],
     },
   }
+}
+
+interface PackageListResponse {
+  data?: HomePackage[]
+}
+
+export async function fetchActivePackages(signal?: AbortSignal): Promise<HomePackage[]> {
+  const json = await apiGet<PackageListResponse>('/packages?status=approved&limit=24', signal)
+  return Array.isArray(json.data) ? json.data : []
 }
 
 export { emptySections }

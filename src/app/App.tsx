@@ -11,152 +11,12 @@ import {
 import { useAppDownloadGate } from '@/app/components/AppDownloadPrompt'
 import { Footer } from '@/app/components/Footer'
 import { SITE } from '@/config/site'
-import { fetchCategories, type SiteCategory } from '@/services/categoryService'
-
-type ListingCard = {
-  id: string
-  title: string
-  location: string
-  subtitle: string
-  img: string
-  rating: number
-  reviews: number
-  price: string
-  priceLabel?: string
-}
+import { useLandingCatalog } from '@/hooks/useLandingCatalog'
+import { mapDestinationCard, splitActivePackages, type ListingCard } from '@/utils/homeListings'
 
 const HERO_BANNER =
   'https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=2400&q=80'
 
-const DESTINATIONS: ListingCard[] = [
-  {
-    id: 'paris',
-    title: 'Paris, France',
-    location: 'Paris',
-    subtitle: 'City walks & local food',
-    img: 'https://images.unsplash.com/photo-1583265266785-aab9e443ee68?w=800&h=800&fit=crop&auto=format',
-    rating: 4.92,
-    reviews: 1840,
-    price: '$299',
-    priceLabel: 'from',
-  },
-  {
-    id: 'bali',
-    title: 'Bali, Indonesia',
-    location: 'Bali',
-    subtitle: 'Temples & rice terraces',
-    img: 'https://images.unsplash.com/photo-1651108066220-f61c22fc281f?w=800&h=800&fit=crop&auto=format',
-    rating: 4.88,
-    reviews: 2104,
-    price: '$349',
-    priceLabel: 'from',
-  },
-  {
-    id: 'santorini',
-    title: 'Santorini, Greece',
-    location: 'Santorini',
-    subtitle: 'Sunset viewpoints',
-    img: 'https://images.unsplash.com/photo-1656013082096-2ba1c0c0bc10?w=800&h=800&fit=crop&auto=format',
-    rating: 4.95,
-    reviews: 980,
-    price: '$419',
-    priceLabel: 'from',
-  },
-  {
-    id: 'tokyo',
-    title: 'Tokyo, Japan',
-    location: 'Tokyo',
-    subtitle: 'Culture & neighborhoods',
-    img: 'https://images.unsplash.com/photo-1636311838630-f38d42915aac?w=800&h=800&fit=crop&auto=format',
-    rating: 4.9,
-    reviews: 1562,
-    price: '$389',
-    priceLabel: 'from',
-  },
-]
-
-const EXPERIENCES: ListingCard[] = [
-  {
-    id: 'santorini-cruise',
-    title: 'Santorini sunset sail',
-    location: 'Santorini, Greece',
-    subtitle: '3 hours · Small group',
-    img: 'https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?w=800&h=600&fit=crop&auto=format',
-    rating: 4.9,
-    reviews: 2341,
-    price: '$149',
-    priceLabel: 'person',
-  },
-  {
-    id: 'machu',
-    title: 'Machu Picchu sunrise hike',
-    location: 'Cusco, Peru',
-    subtitle: 'Full day · Guided',
-    img: 'https://images.unsplash.com/photo-1587595431973-160d0d94add1?w=800&h=600&fit=crop&auto=format',
-    rating: 4.93,
-    reviews: 1876,
-    price: '$199',
-    priceLabel: 'person',
-  },
-  {
-    id: 'ubud',
-    title: 'Ubud jungle wellness',
-    location: 'Bali, Indonesia',
-    subtitle: 'Half day · Wellness',
-    img: 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=800&h=600&fit=crop&auto=format',
-    rating: 4.85,
-    reviews: 1204,
-    price: '$89',
-    priceLabel: 'person',
-  },
-  {
-    id: 'kyoto',
-    title: 'Kyoto temple walk',
-    location: 'Kyoto, Japan',
-    subtitle: '4 hours · Cultural',
-    img: 'https://images.unsplash.com/photo-1545569341-9eb8b30979d9?w=800&h=600&fit=crop&auto=format',
-    rating: 4.87,
-    reviews: 3102,
-    price: '$129',
-    priceLabel: 'person',
-  },
-]
-
-const TRIPS: ListingCard[] = [
-  {
-    id: 'india',
-    title: 'Golden Triangle',
-    location: 'India',
-    subtitle: '8 days · Flights & hotels',
-    img: 'https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=800&h=600&fit=crop&auto=format',
-    rating: 4.8,
-    reviews: 512,
-    price: '$1,299',
-    priceLabel: 'trip',
-  },
-  {
-    id: 'greece',
-    title: 'Greek Islands Odyssey',
-    location: 'Greece',
-    subtitle: '10 days · Ferry included',
-    img: 'https://images.unsplash.com/photo-1598821144367-db395349afa3?w=800&h=600&fit=crop&auto=format',
-    rating: 4.9,
-    reviews: 744,
-    price: '$2,450',
-    priceLabel: 'trip',
-  },
-  {
-    id: 'japan',
-    title: 'Cherry Blossom Trail',
-    location: 'Japan',
-    subtitle: '12 days · Rail pass',
-    img: 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=800&h=600&fit=crop&auto=format',
-    rating: 4.91,
-    reviews: 388,
-    price: '$3,199',
-    priceLabel: 'trip',
-  },
-]
 
 function SectionHeader({
   title,
@@ -232,10 +92,12 @@ function ListingCardView({
 
       <div className="flex items-start justify-between gap-2">
         <h3 className="truncate font-semibold text-slate-900">{item.title}</h3>
-        <span className="inline-flex shrink-0 items-center gap-1 text-sm text-slate-500">
-          <Star size={12} className="fill-slate-900 text-slate-900" />
-          {item.rating.toFixed(2)}
-        </span>
+        {item.rating > 0 ? (
+          <span className="inline-flex shrink-0 items-center gap-1 text-sm text-slate-500">
+            <Star size={12} className="fill-slate-900 text-slate-900" />
+            {item.rating.toFixed(2)}
+          </span>
+        ) : null}
       </div>
       <p className="mt-0.5 truncate text-sm text-slate-500">{item.subtitle}</p>
       <p className="mt-1.5">
@@ -246,10 +108,23 @@ function ListingCardView({
   )
 }
 
+function ListingSkeletons({ count, aspect }: { count: number; aspect: 'square' | 'landscape' }) {
+  return (
+    <>
+      {Array.from({ length: count }).map((_, i) => (
+        <div
+          key={i}
+          className={`animate-pulse rounded-2xl bg-slate-200/70 ${
+            aspect === 'square' ? 'aspect-square' : 'aspect-[4/3]'
+          }`}
+        />
+      ))}
+    </>
+  )
+}
+
 export default function Home() {
   const [wishlist, setWishlist] = useState<Set<string>>(new Set())
-  const [categories, setCategories] = useState<SiteCategory[]>([])
-  const [categoriesLoading, setCategoriesLoading] = useState(true)
   const [activeCategory, setActiveCategory] = useState('')
   const [where, setWhere] = useState('')
   const [when, setWhen] = useState('')
@@ -257,19 +132,9 @@ export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [showNavSearch, setShowNavSearch] = useState(false)
   const { requestDownload, dialog: downloadDialog } = useAppDownloadGate()
-
-  useEffect(() => {
-    const controller = new AbortController()
-    setCategoriesLoading(true)
-    fetchCategories(controller.signal)
-      .then((list) => {
-        setCategories(list)
-        if (list[0]?._id) setActiveCategory(list[0]._id)
-      })
-      .catch(() => setCategories([]))
-      .finally(() => setCategoriesLoading(false))
-    return () => controller.abort()
-  }, [])
+  const { packages, destinations, categories, loading } = useLandingCatalog()
+  const destinationCards = destinations.map(mapDestinationCard)
+  const { experiences, trips } = splitActivePackages(packages, activeCategory)
 
   useEffect(() => {
     const el = document.getElementById('hero-search')
@@ -472,11 +337,11 @@ export default function Home() {
       </section>
 
       {/* Category tabs — live API categories */}
-      {(categoriesLoading || categories.length > 0) && (
+      {(loading || categories.length > 0) && (
         <div className="sticky top-20 z-40 border-b border-slate-200/80 bg-stone-50/90 backdrop-blur-md">
           <div className="landing-container">
             <div className="scrollbar-hide -mx-1 flex gap-2 overflow-x-auto px-1 py-3">
-              {categoriesLoading && categories.length === 0 ? (
+              {loading && categories.length === 0 ? (
                 <div className="flex gap-2 py-0.5">
                   {Array.from({ length: 6 }).map((_, i) => (
                     <div key={i} className="h-8 w-24 shrink-0 animate-pulse rounded-full bg-slate-200/70" />
@@ -489,7 +354,7 @@ export default function Home() {
                     <button
                       key={cat._id}
                       type="button"
-                      onClick={() => setActiveCategory(cat._id)}
+                      onClick={() => setActiveCategory((current) => (current === cat._id ? '' : cat._id))}
                       className={`shrink-0 rounded-full px-3.5 py-1.5 text-sm font-medium transition-colors duration-200 ${
                         active
                           ? 'bg-sky-500 text-white'
@@ -512,17 +377,24 @@ export default function Home() {
           <div className="landing-container">
             <SectionHeader title="Popular destinations" />
             <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
-              {DESTINATIONS.map((item) => (
-                <ListingCardView
-                  key={item.id}
-                  item={item}
-                  liked={wishlist.has(item.id)}
-                  onToggleLike={() => toggleWishlist(item.id)}
-                  onOpen={requestDownload}
-                  aspect="square"
-                />
-              ))}
+              {loading ? (
+                <ListingSkeletons count={4} aspect="square" />
+              ) : (
+                destinationCards.map((item) => (
+                  <ListingCardView
+                    key={item.id}
+                    item={item}
+                    liked={wishlist.has(item.id)}
+                    onToggleLike={() => toggleWishlist(item.id)}
+                    onOpen={requestDownload}
+                    aspect="square"
+                  />
+                ))
+              )}
             </div>
+            {!loading && destinationCards.length === 0 ? (
+              <p className="text-sm text-slate-500">No active destinations right now.</p>
+            ) : null}
           </div>
         </section>
 
@@ -531,38 +403,52 @@ export default function Home() {
           <div className="landing-container">
             <SectionHeader title="Featured experiences" />
             <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
-              {EXPERIENCES.map((item) => (
-                <ListingCardView
-                  key={item.id}
-                  item={item}
-                  liked={wishlist.has(item.id)}
-                  onToggleLike={() => toggleWishlist(item.id)}
-                  onOpen={requestDownload}
-                  aspect="landscape"
-                />
-              ))}
+              {loading ? (
+                <ListingSkeletons count={4} aspect="landscape" />
+              ) : (
+                experiences.map((item) => (
+                  <ListingCardView
+                    key={item.id}
+                    item={item}
+                    liked={wishlist.has(item.id)}
+                    onToggleLike={() => toggleWishlist(item.id)}
+                    onOpen={requestDownload}
+                    aspect="landscape"
+                  />
+                ))
+              )}
             </div>
+            {!loading && experiences.length === 0 ? (
+              <p className="text-sm text-slate-500">
+                {activeCategory ? 'No active trips in this category right now.' : 'No active trips right now.'}
+              </p>
+            ) : null}
           </div>
         </section>
 
-        {/* Curated trips */}
+        {(loading || trips.length > 0) && (
         <section className="landing-section">
           <div className="landing-container">
             <SectionHeader title="Curated trip packages" />
             <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
-              {TRIPS.map((item) => (
-                <ListingCardView
-                  key={item.id}
-                  item={item}
-                  liked={wishlist.has(item.id)}
-                  onToggleLike={() => toggleWishlist(item.id)}
-                  onOpen={requestDownload}
-                  aspect="landscape"
-                />
-              ))}
+              {loading ? (
+                <ListingSkeletons count={3} aspect="landscape" />
+              ) : (
+                trips.map((item) => (
+                  <ListingCardView
+                    key={item.id}
+                    item={item}
+                    liked={wishlist.has(item.id)}
+                    onToggleLike={() => toggleWishlist(item.id)}
+                    onOpen={requestDownload}
+                    aspect="landscape"
+                  />
+                ))
+              )}
             </div>
           </div>
         </section>
+        )}
 
         {/* Host CTA */}
         <section id="host" className="landing-section border-t border-border bg-secondary">
